@@ -41,7 +41,9 @@ function main() {
     
         let nospace = fileName.split(" ");
         console.log(nospace);
-        let first = nospace[0];
+        let batch = nospace[0];
+        console.log(batch)
+        let first = nospace[1];
         console.log(first);
         
 
@@ -71,7 +73,7 @@ function main() {
             const hexString = parseInt(counter, 10).toString(16);
             fs.renameSync(
                 `${imagesDir}/${fileName}.gif`,
-                `${imagesDir}/${first}_${num}.gif`
+                `${imagesDir}/${batch}_${first}_${num}.gif`
             );
             counter++;
         } catch (err) {
