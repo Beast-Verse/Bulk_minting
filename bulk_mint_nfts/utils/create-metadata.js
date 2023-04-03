@@ -30,7 +30,6 @@ function main() {
     let rare = 0;
     let epic = 0;
     let legendary = 0;
-    const rarity = "";
     
     // function selectjson(name){
     //     const arr = name.split(" ");
@@ -51,7 +50,7 @@ function main() {
     let configFileName;
 
     fileNames.map((fileName)=>  { const arr = fileName.split("_");
-    const rarity = arr[0];
+    const rarity = arr[1];
 
     configFileName = rarity+"config.json";
     console.log(rarity);
