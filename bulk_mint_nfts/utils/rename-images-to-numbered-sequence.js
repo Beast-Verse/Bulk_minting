@@ -45,27 +45,32 @@ function main() {
         console.log(batch)
         let first = nospace[1];
         console.log(first);
+        let name;
         
 
         
         if(first == "Common"){
             common++;
             num = common;
+            name = "a";
             console.log(num);
         }
 
         else if(first == "Rare"){
             rare++;
+            name = "b";
             num = rare;
         }
 
         else if(first == "Epic"){
             epic++;
+            name = "c";
             num = epic;
         }
 
         else if(first == "Legendary"){
             legendary++;
+            name = "d";
             num = legendary;
         }
 
@@ -73,7 +78,7 @@ function main() {
             const hexString = parseInt(counter, 10).toString(16);
             fs.renameSync(
                 `${imagesDir}/${fileName}.gif`,
-                `${imagesDir}/${batch}_${first}_${num}.gif`
+                `${imagesDir}/${batch}_${name}_${num}_.gif`
             );
             counter++;
         } catch (err) {

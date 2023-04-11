@@ -32,12 +32,13 @@ function main() {
     // In first pass we prepend filenames with hexString separated by comma
     // we do this to avoid overriding filenames already in hexadecimal format
     fileNames.map((fileName) => {
+
         try {
-            const hexString = parseInt(counter, 10).toString(16);
-            const paddedHexString = toPaddedHexString(hexString, 64)
+            // const hexString = parseInt(counter, 10).toString(16);
+            // const paddedHexString = toPaddedHexString(hexString, 0)
             fs.renameSync(
                 `${imagesDir}/${fileName}.json`,
-                `${imagesDir}/${paddedHexString}.json`
+                `${imagesDir}/${counter}.json`
             );
             counter++;
         } catch (err) {
@@ -48,25 +49,25 @@ function main() {
             throw err;
         }
     });
-    counter = 1;
-    // in second pass we actually rename files to hexString
-    fileNames.map((fileName) => {
-        try {
-            const hexString = parseInt(counter, 10).toString(16);
-            const paddedHexString = toPaddedHexString(hexString, 64)
-            fs.renameSync(
-                `${imagesDir}/${hexString}_${fileName}.json`,
-                `${imagesDir}/${paddedHexString}.json`
-            );
-            console.log(
-                `rename successful for file: ${fileName}.json to ${hexString}.json`
-            );
-            counter++;
-        } catch (err) {
-            console.log('error ocurred while renaming file: ', fileName);
-            throw err;
-        }
-    });
+    // counter = 1;
+    // // in second pass we actually rename files to hexString
+    // fileNames.map((fileName) => {
+    //     try {
+    //         const hexString = parseInt(counter, 10).toString(10);
+    //         const paddedHexString = toPaddedHexString(hexString, 0)
+    //         fs.renameSync(
+    //             `${imagesDir}/${hexString}_${fileName}.json`,
+    //             `${imagesDir}/${paddedHexString}.json`
+    //         );
+    //         console.log(
+    //             `rename successful for file: ${fileName}.json to ${hexString}.json`
+    //         );
+    //         counter++;
+    //     } catch (err) {
+    //         console.log('error ocurred while renaming file: ', fileName);
+    //         throw err;
+    //     }
+    // });
     console.log('All files renamed successfully in images directory');
 }
 

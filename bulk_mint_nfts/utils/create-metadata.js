@@ -26,10 +26,7 @@ function getAllFileNames(dir) {
 }
 
 function main() {
-    let common = 0;
-    let rare = 0;
-    let epic = 0;
-    let legendary = 0;
+ 
     
     // function selectjson(name){
     //     const arr = name.split(" ");
@@ -51,33 +48,25 @@ function main() {
 
     fileNames.map((fileName)=>  { const arr = fileName.split("_");
     const rarity = arr[1];
+    const ind = arr[2];
+    const last = ind.split(".");
+    const num = last[0];
+    const batch = arr[0];
 
-    configFileName = rarity+"config.json";
-    console.log(rarity);
-    console.log(configFileName);
+    if(rarity=="a"){
+    configFileName = "commonconfig.json";
+    }
+    else if(rarity=="b"){
+        configFileName = "rareconfig.json";
+    }
+    else if(rarity=="c"){
+        configFileName = "epicconfig.json";
+    }
+    else if(rarity=="d"){
+        configFileName = "legendaryconfig.json";
+    }
 
-    check = rarity;
-    console.log(check);
 
-        if(rarity == "Common"){
-            common++;
-            num = common;
-        }
-
-        else if(rarity == "Rare"){
-            rare++;
-            num = rare;
-        }
-
-        else if(rarity == "Epic"){
-            epic++;
-            num = epic;
-        }
-
-        else if(rarity == "Legendary"){
-            legendary++;
-            num = legendary;
-        }
 
         const configFilePath = path.resolve(__dirname, '..', configFileName);
         const config = JSON.parse(fs.readFileSync(configFilePath, 'utf8'));
@@ -99,26 +88,26 @@ function main() {
 
         const promisesArray = new Promise((resolve, reject) => {
             try {
-                let hexString = null;
-                let sequence = null;
-                if (useHexadecimalFormatForImagesDir) {
-                    hexString = fileName;
-                    sequence = parseInt(hexString, 16);
-                } else {
-                    hexString = parseInt(idx + 1, 10).toString(16);
-                    sequence = idx + 1;
-                }
+            //     let hexString = null;
+            //     let sequence = null;
+            //     if (useHexadecimalFormatForImagesDir) {
+            //         hexString = fileName;
+            //         sequence = parseInt(hexString, 16);
+            //     } else {
+            //         hexString = parseInt(idx + 1, 10).toString(16);
+            //         sequence = idx + 1;
+            //     }
                 createMetadataFile(
                     {
                         name: `${collectionName} #${num}`,
                         description: `${description}`,
-                        image: `${baseUri}/${fileName}${fileExtension}`,
+                        image: `${baseUri}`,
                         attributes: [{
                             trait_type: `${trait}`,
                             value: `${value}`
                         }]
                     },
-                    hexString
+                    batch, rarity, ind
                 );
             } catch (err) {
                 console.log(
@@ -160,15 +149,15 @@ function main() {
     
         new Promise((resolve, reject) => {
             try {
-                let hexString = null;
-                let sequence = null;
-                if (useHexadecimalFormatForImagesDir) {
-                    hexString = fileName;
-                    sequence = parseInt(hexString, 16);
-                } else {
-                    hexString = parseInt(idx + 1, 10).toString(16);
-                    sequence = idx + 1;
-                }
+                // let hexString = null;
+                // let sequence = null;
+                // if (useHexadecimalFormatForImagesDir) {
+                //     hexString = fileName;
+                //     sequence = parseInt(hexString, 16);
+                // } else {
+                //     hexString = parseInt(idx + 1, 10).toString(16);
+                //     sequence = idx + 1;
+                // }
                 createMetadataFile(
                     {
                         name: `${collectionName} #${sequence}`,
@@ -179,7 +168,7 @@ function main() {
                             value: `${value}`
                         }]
                     },
-                    hexString
+                    batch, rarity, ind
                 );
             } catch (err) {
                 console.log(
@@ -199,20 +188,20 @@ function main() {
         );
 }
 
-function createMetadataFile(metadata, hexString) {
+function createMetadataFile(metadata, batch, rarity, ind) {
     // convert filename to padded hex string
-    const paddedHexString = toPaddedHexString(hexString, 64);
+    // const paddedHexString = toPaddedHexString(hexString, 0);
     fs.writeFileSync(
-        `${metadataDir}/${paddedHexString}.json`,
+        `${metadataDir}/${batch}${rarity}${ind}.json`,
         JSON.stringify(metadata, null, 4),
         'utf8'
     );
-    console.log('metadata file created successfully for file: ', hexString);
+    // console.log('metadata file created successfully for file: ', hexString);
 }
 
-function toPaddedHexString(num, len) {
-    return num.toString(16).padStart(len, '0');
-}
+// function toPaddedHexString(num, len) {
+//     return num.toString(16).padStart(len, '0');
+// }
 
 function createDirIfNotExists(dir) {
     if (!fs.existsSync(dir)) {
