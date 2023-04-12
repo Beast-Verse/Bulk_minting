@@ -85,7 +85,7 @@ function main() {
         fileNames = fileNames.map((fileName) => path.parse(fileName).name);
 
         
-            for(var num = 1; num<1251; num++){
+            for(var num = 1; num<251; num++){
                 createMetadataFile(
                     {
                         name: `${collectionName} #${num}`,
